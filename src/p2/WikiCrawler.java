@@ -11,20 +11,18 @@ public class WikiCrawler {
 	
 	public static void main(String[] args) throws IOException {
 		
-		/*//Testing the extractLinks
 		WikiCrawler w= new WikiCrawler("hello", 10, null, "test.txt");
 		ArrayList<String> test= w.extractLinks("test.txt");
 		for(String s: test) {
 			System.out.println(s);
-		}*/
-		
+		}	
 	}
 	
 	//We MUST use this or we get 0 credits
 	private static final String BASE_URL= "https://en.wikipedia.org";
 	ArrayList<String> links;
 	int max;
-	Queue queue= new LinkedList();
+	Queue<String> queue= new LinkedList<String>();
 	
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.max=max;
@@ -47,6 +45,7 @@ public class WikiCrawler {
 				
 			}
 		}
+		br.close();
 		return result;
 	}
 	
