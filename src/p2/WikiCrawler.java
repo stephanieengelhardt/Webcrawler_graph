@@ -21,11 +21,18 @@ public class WikiCrawler {
 	//We MUST use this or we get 0 credits
 	private static final String BASE_URL= "https://en.wikipedia.org";
 	ArrayList<String> links;
+	ArrayList<String> topics;
 	int max;
 	Queue<String> queue= new LinkedList<String>();
 	
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.max=max;
+		this.topics=topics;
+		try {
+			links=extractLinks(fileName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public ArrayList<String> extractLinks(String doc) throws IOException{
