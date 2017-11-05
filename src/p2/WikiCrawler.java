@@ -29,7 +29,6 @@ public class WikiCrawler {
 	}
 	
 	public ArrayList<String> extractLinks(String doc) throws IOException{
-		public ArrayList<String> extractLinks(String doc) throws IOException{
 		ArrayList<String> result= new ArrayList<String>();
 		String line;
 		FileReader fileReader= new FileReader(doc);
