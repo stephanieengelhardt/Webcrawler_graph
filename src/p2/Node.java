@@ -1,3 +1,4 @@
+package p2;
 
 public class Node {
 	String data;

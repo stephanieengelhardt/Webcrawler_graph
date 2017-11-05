@@ -1,3 +1,4 @@
+package p2;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -19,7 +20,7 @@ public class WikiCrawler {
 		
 	}
 	
-	//We MUST use this or we get 0 credit
+	//We MUST use this or we get 0 credits
 	private static final String BASE_URL= "https://en.wikipedia.org";
 	ArrayList<String> links;
 	int max;
