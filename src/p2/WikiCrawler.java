@@ -29,6 +29,7 @@ public class WikiCrawler {
 	}
 	
 	public ArrayList<String> extractLinks(String doc) throws IOException{
+		public ArrayList<String> extractLinks(String doc) throws IOException{
 		ArrayList<String> result= new ArrayList<String>();
 		String line;
 		FileReader fileReader= new FileReader(doc);
@@ -40,9 +41,11 @@ public class WikiCrawler {
 			}
 		}
 		while((line=br.readLine())!=null) {
-			if(!line.contains("#") && !line.contains(":") && line.contains("/wiki/")) {
-				result.add(line);
-				
+			if(line.contains("/wiki")) {
+				line=line.substring(line.indexOf("/wiki"));
+				line=line.substring(0, line.indexOf('"'));
+				if(!line.contains("#") && !line.contains(":"))
+					result.add(line);
 			}
 		}
 		br.close();
