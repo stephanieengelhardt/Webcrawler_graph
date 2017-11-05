@@ -28,11 +28,7 @@ public class WikiCrawler {
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.max=max;
 		this.topics=topics;
-		try {
-			links=extractLinks(fileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.fileName=fileName;
 	}
 	
 	public ArrayList<String> extractLinks(String doc) throws IOException{
