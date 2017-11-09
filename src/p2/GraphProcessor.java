@@ -9,10 +9,14 @@ import java.util.ArrayList;
  * on the website
  */
 public class GraphProcessor {
-	
+	private HashMap<String, ArrayList<String>> map;
+	private ArrayList<ArrayList<String>> stronglyConnectedComponent;
+	private int verticies; 
 	
 	public GraphProcessor(String graphData) {
-		
+		this.vertices=0;
+		this.map=createMapFromFile(graphData);
+		this.StronglyConnectedComponent=createStronglyConnected();
 	}
 	
 	public int outDegree(String v) {
@@ -29,5 +33,29 @@ public class GraphProcessor {
 	
 	public int centrality(String v) {
 		return 0;
+	}
+	
+	private ArrayList<ArrayList<String>> createStronglyConnected(){
+	    ArrayList<ArrayList<String>> result= new ArrayList();
+	    Stack<String> stack= new Stack();
+	    //bit array
+	    Node visited[] = new Node[vertices];
+	    Iterator<String> iterator= map.keySet().iterator();
+	    int index=0;
+	    while(iterator.hasNext()){
+	        try{
+	            visited[index]=new Node(iterator.next(), false);
+	            index++;
+	        }
+	        catch(ArrayIndexOutOfBoundsException e){
+	            System.out.println("Error with number of vertices from the parent file");
+	            return null;
+	        }
+	    }
+	    for(int i=0; i <visited.length; i++){
+	        if(visited[i] !=null){
+	            visited[i].setVisited(false);
+	        }
+	    }
 	}
 }
