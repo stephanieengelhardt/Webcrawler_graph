@@ -1,9 +1,12 @@
 package p2;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 
 /*
  * @author Joshua Forest and Stephanie Engelhardt
@@ -17,7 +20,7 @@ public class GraphProcessor {
 	private int vertices; 
 	
 	//graph data is a file name
-	public GraphProcessor(String graphData) {
+	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map=createMap(graphData);
 	}
 	
