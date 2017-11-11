@@ -19,7 +19,6 @@ public class GraphProcessor {
 	
 	//graph data is a file name
 	public GraphProcessor(String graphData) {
-		this.vertices=0;
 		this.map=createMap(graphData);
 		this.stronglyConnectedComponent=createStronglyConnected();
 	}
