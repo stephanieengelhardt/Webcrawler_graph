@@ -14,13 +14,11 @@ import java.util.Queue;
  */
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
-	private ArrayList<ArrayList<String>> stronglyConnectedComponent;
 	private int vertices; 
 	
 	//graph data is a file name
 	public GraphProcessor(String graphData) {
 		this.map=createMap(graphData);
-		this.stronglyConnectedComponent=createStronglyConnected();
 	}
 	
 	public int outDegree(String v) {
@@ -65,31 +63,7 @@ public class GraphProcessor {
 		return 0;
 	}
 	
-	private ArrayList<ArrayList<String>> createStronglyConnected(){
-	    //TODO: Not completed
-	    ArrayList<ArrayList<String>> result= new ArrayList();
-	    //bit array
-	    Node visited[] = new Node[verticies];
-	    Iterator<String> iterator= map.keySet().iterator();
-	    int index=0;
-	    
-	    //get all of the vertices from the map
-	    while(iterator.hasNext()){
-	        try{
-	            visited[index]=new Node(iterator.next(), WikiCrawler.BASE_URL);
-	            index++;
-	        }
-	        catch(ArrayIndexOutOfBoundsException e){
-	            System.out.println("Error with number of vertices from the parent file");
-	            return null;
-	        }
-	    }
-	    
-	    //set all to not visited
-	    for(int i=0; i <visited.length; i++){
-	        
-	    }
-	}
+
 	private HashMap<String, ArrayList<String>> createMap(String filename) throws FileNotFoundException{
 		HashMap<String, ArrayList<String>> map = new HashMap();
 		File file = new File(filename);
