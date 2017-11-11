@@ -89,7 +89,7 @@ public class WikiCrawler {
 		}
 	}
 	
-	private ArrayList<String> readPage(String url){
+	private ArrayList<String> readPage(String url) throws IOException{
 	    URL start= new URL(BASE_URL+url);
 	    InputStream read=start.openStream();
 	    BufferedReader br= new BufferedReader(new InputStreamReader(read));
