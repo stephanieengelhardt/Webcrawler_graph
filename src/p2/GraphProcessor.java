@@ -25,7 +25,7 @@ public class GraphProcessor {
 	}
 	
 	public int outDegree(String v) {
-		return 0;
+		return map.get(v).size();
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
