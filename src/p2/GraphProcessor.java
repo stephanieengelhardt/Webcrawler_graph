@@ -15,11 +15,12 @@ import java.util.Queue;
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private ArrayList<ArrayList<String>> stronglyConnectedComponent;
-	private int verticies; 
+	private int vertices; 
 	
+	//graph data is a file name
 	public GraphProcessor(String graphData) {
-		this.verticies=0;
-		this.map=createMapFromFile(graphData);
+		this.vertices=0;
+		this.map=createMap(graphData);
 		this.stronglyConnectedComponent=createStronglyConnected();
 	}
 	
@@ -89,5 +90,31 @@ public class GraphProcessor {
 	    for(int i=0; i <visited.length; i++){
 	        
 	    }
+	}
+	private HashMap<String, ArrayList<String>> createMap(String filename) throws FileNotFoundException{
+		HashMap<String, ArrayList<String>> map = new HashMap();
+		File file = new File(filename);
+		Scanner scan=new Scanner(file);
+		//first line indicates the number of vertices
+		vertices = scan.nextInt();
+		scan.nextLine();
+		//the rest of the lines are directed edges
+		while(scan.hasNextLine()){
+			String current= scan.nextLine();
+			//from node
+			String key = current.substring(0, current.indexOf(' '));
+			//to node
+			String value = current.substring(current.indexOf(' ') + 1, current.length());
+			if(map.containsKey(key))
+				map.get(key).add(value);
+			else{
+				map.put(key, new ArrayList<String>());
+				map.get(key).add(value);
+			}
+			if(!map.containsKey(value))
+				map.put(value, new ArrayList<String>());
+		}
+		scan.close();
+		return map;
 	}
 }
