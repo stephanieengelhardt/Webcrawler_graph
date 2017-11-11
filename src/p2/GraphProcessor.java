@@ -1,5 +1,9 @@
 package p2;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /*
  * @author Joshua Forest and Stephanie Engelhardt
@@ -14,9 +18,9 @@ public class GraphProcessor {
 	private int verticies; 
 	
 	public GraphProcessor(String graphData) {
-		this.vertices=0;
+		this.verticies=0;
 		this.map=createMapFromFile(graphData);
-		this.StronglyConnectedComponent=createStronglyConnected();
+		this.stronglyConnectedComponent=createStronglyConnected();
 	}
 	
 	public int outDegree(String v) {
@@ -32,12 +36,12 @@ public class GraphProcessor {
 	        queue.add(s);
 	        visited.add(s);
 	    }
-	    whie(!(queue.isEmpty()){
+	    while(!(queue.isEmpty())){
 	        String temp= queue.remove();
 	        ArrayList<String> edges= map.get(temp);
 	        for(String s: edges){
-	            if(!(visited.contains(s)){
-	                if(!(path.contains(v)){
+	            if(!(visited.contains(s))){
+	                if(!(path.contains(v))){
 	                    path.add(s);
 	                }
 	                else{
@@ -64,14 +68,14 @@ public class GraphProcessor {
 	    //TODO: Not completed
 	    ArrayList<ArrayList<String>> result= new ArrayList();
 	    //bit array
-	    Node visited[] = new Node[vertices];
+	    Node visited[] = new Node[verticies];
 	    Iterator<String> iterator= map.keySet().iterator();
 	    int index=0;
 	    
 	    //get all of the vertices from the map
 	    while(iterator.hasNext()){
 	        try{
-	            visited[index]=new Node(iterator.next(), false);
+	            visited[index]=new Node(iterator.next(), WikiCrawler.BASE_URL);
 	            index++;
 	        }
 	        catch(ArrayIndexOutOfBoundsException e){
@@ -82,9 +86,7 @@ public class GraphProcessor {
 	    
 	    //set all to not visited
 	    for(int i=0; i <visited.length; i++){
-	        if(visited[i] !=null){
-	            visited[i].setVisited(false);
-	        }
+	        
 	    }
 	}
 }
