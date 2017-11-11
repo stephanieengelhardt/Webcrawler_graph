@@ -12,11 +12,10 @@ public class WikiCrawler {
 	
 	//We MUST use this or we get 0 credits
 	private static final String BASE_URL= "https://en.wikipedia.org";
-	String fileName;
-	String seedURL;
+	private String fileName, seedURL;
+	private int max;
 	ArrayList<String> links;
 	ArrayList<String> topics;
-	int max;
 	Queue<String> queue= new LinkedList<String>();
 	
 	public static void main(String[] args) throws IOException {
@@ -82,15 +81,25 @@ public class WikiCrawler {
 	public void crawl() throws InterruptedException, IOException {
 		//only find 0 to max amount of links within this webpage
 		for(int i=0; i<max; i++) {
-			String website= BASE_URL+links.get(i);
-			URL url= new URL(website);
 			if(i%50==0) {
 				//after 50 requests you MUST use Thread.sleep() (or we get 0 credit)
 				Thread.sleep(3000);
 			}
-			InputStream read= url.openStream();
-			BufferedReader br= new BufferedReader(new InputStreamReader(read));
-			String line=br.readLine();
+			readPage(links.get(i));
 		}
 	}
+	
+	private ArrayList<String> readPage(String url){
+	    URL start= new URL(BASE_URL+url);
+	    InputStream read=start.openStream();
+	    Buffered br= new BufferedReader(new InputStreamReder(read));
+	    String page="";
+	    String line=br.readLine();
+	    while(line!=null){
+	        page+=line+ '\n';
+	    }
+	    return extractFromString(page);
+	}
+	
+	
 }
