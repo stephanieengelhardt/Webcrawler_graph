@@ -28,13 +28,14 @@ public class GraphProcessor {
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
-	    ArrayList<String> path= new ArrayList<String>();
+	     ArrayList<String> path= new ArrayList<String>();
 	    Queue<String> queue= new LinkedList<String>();
-	    //this might need to be an int array
 	    ArrayList<String> visited= new ArrayList<String>();
+	    
 	    if(map.size() > 0){
-	        queue.add(s);
-	        visited.add(s);
+	    		String current=map.keySet().iterator().next();
+	        queue.add(current);
+	        visited.add(current);
 	    }
 	    while(!(queue.isEmpty())){
 	        String temp= queue.remove();
