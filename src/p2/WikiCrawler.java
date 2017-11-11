@@ -92,7 +92,7 @@ public class WikiCrawler {
 	private ArrayList<String> readPage(String url){
 	    URL start= new URL(BASE_URL+url);
 	    InputStream read=start.openStream();
-	    Buffered br= new BufferedReader(new InputStreamReder(read));
+	    BufferedReader br= new BufferedReader(new InputStreamReader(read));
 	    String page="";
 	    String line=br.readLine();
 	    while(line!=null){
