@@ -12,7 +12,6 @@ public class WikiCrawler {
 	
 	//We MUST use this or we get 0 credits
 	private static final String BASE_URL= "https://en.wikipedia.org";
-<<<<<<< HEAD
 	private String fileName;
 	private String seedURL;
 	//private ArrayList<String> links;
@@ -20,13 +19,7 @@ public class WikiCrawler {
 	private int max;
 	private int count;
 	//private Queue<String> queue= new LinkedList<String>();
-=======
-	private String fileName, seedURL;
-	private int max;
-	ArrayList<String> links;
-	ArrayList<String> topics;
-	Queue<String> queue= new LinkedList<String>();
->>>>>>> b7b7004f4dc0f280213f55140b1a0db6c1c68d9e
+
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
@@ -107,32 +100,14 @@ public class WikiCrawler {
 		Queue<String> q = new LinkedList<String>();
 		LinkedList<String> l=new LinkedList<String>();
 		for(int i=0; i<max; i++) {
-<<<<<<< HEAD
 			String doc = getHTML(seedURL);
 			for(String s : extractLinks(doc)){
 				q.add(doc);
 			}
-=======
-			if(i%50==0) {
-				//after 50 requests you MUST use Thread.sleep() (or we get 0 credit)
-				Thread.sleep(3000);
-			}
-			readPage(links.get(i));
->>>>>>> b7b7004f4dc0f280213f55140b1a0db6c1c68d9e
+
 		}
 	}
 	
-	private ArrayList<String> readPage(String url) throws IOException{
-	    URL start= new URL(BASE_URL+url);
-	    InputStream read=start.openStream();
-	    BufferedReader br= new BufferedReader(new InputStreamReader(read));
-	    String page="";
-	    String line=br.readLine();
-	    while(line!=null){
-	        page+=line+ '\n';
-	    }
-	    return extractFromString(page);
-	}
 	
 	
 }
