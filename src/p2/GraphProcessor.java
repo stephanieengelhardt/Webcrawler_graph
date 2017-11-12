@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -21,8 +22,16 @@ public class GraphProcessor {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		GraphProcessor g= new GraphProcessor("test.txt");
-		for(String s: g.bfsPath("Minneapolis", "Omaha"))
-			System.out.println(s);
+		/*for(String s: g.bfsPath("Minneapolis", "Omaha"))
+			System.out.println(s);*/
+		//A->M, A->C, M->C, M->O, M->A, C->M
+		System.out.println("Centrality of Minneapolis: expected=6, actual="+g.centrality("Minneapolis"));
+		//A->M, A->C, A->O, M->O, M->A, C->O, C->M, C->A
+		System.out.println("Centrality of Ames: expected=8, actual="+g.centrality("Ames"));
+		//A->M, A->C, M->C, M->O, M->A, C->M
+		System.out.println("Centrality of Omaha: expected=3, actual="+g.centrality("Omaha"));
+		//A->C, M->C, M->A, M->O, C->M, C->A, C->O
+		System.out.println("Centrality of Chicago: expected=7, actual="+g.centrality("Chicago"));
 	}
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
@@ -85,10 +94,25 @@ public class GraphProcessor {
 	}
 	
 	public int centrality(String v) {
+		int count=0;
+		Iterator it= map.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry current=(Map.Entry) it.next();
+			if(!current.equals(v)) {
+				for(Map.Entry entry: map.entrySet()) {
+					if(!entry.equals(current)) {
+						ArrayList<String> result= bfsPath((String) current.getKey(),(String) entry.getKey());
+						if(result.contains(v)) {
+							count++;
+						}
+					}
+				}
+			}
+		}
 		//shortest path from each vertex to each vertex 
 		//(if it is in that, then add one to the centrality)
 		//maybe have a prioritized vertex? to make a subtree
-		return 0;
+		return count;
 	}
 	
 
@@ -122,3 +146,5 @@ public class GraphProcessor {
 		return map;
 	}
 }
+
+
