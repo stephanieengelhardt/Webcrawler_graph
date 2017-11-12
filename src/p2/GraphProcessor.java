@@ -19,6 +19,11 @@ public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private int vertices; 
 	
+	public static void main(String[] args) throws FileNotFoundException {
+		GraphProcessor g= new GraphProcessor("test.txt");
+		for(String s: g.bfsPath("Minneapolis", "Omaha"))
+			System.out.println(s);
+	}
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map=createMap(graphData);
@@ -29,40 +34,60 @@ public class GraphProcessor {
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
-	     ArrayList<String> path= new ArrayList<String>();
+	    ArrayList<String> path= new ArrayList<String>();
 	    Queue<String> queue= new LinkedList<String>();
 	    ArrayList<String> visited= new ArrayList<String>();
-	    
+	    HashMap<String, String> parent = new HashMap();
 	    if(map.size() > 0){
-	    		String current=map.keySet().iterator().next();
-	        queue.add(current);
-	        visited.add(current);
+	        queue.add(u);
+	        visited.add(u);
 	    }
 	    while(!(queue.isEmpty())){
 	        String temp= queue.remove();
 	        ArrayList<String> edges= map.get(temp);
 	        for(String s: edges){
+	        		if(s.equals(v)) {
+	        			parent.put(v, temp);
+	        			return pathMaker(parent, u,v);
+	        		}
 	            if(!(visited.contains(s))){
-	                if(!(path.contains(v))){
-	                    path.add(s);
-	                }
-	                else{
-	                    return path;
-	                }
+	                parent.put(s, temp);
 	                queue.add(s);
-	                visited.add(s);
+		            visited.add(s);
 	            }
 	        }
 	    }
-	    
 		return path;
 	}
 	
+	private ArrayList<String> pathMaker(HashMap<String, String> bfs, String u, String v){
+		ArrayList<String> path= new ArrayList<String>();
+		path.add(v);
+		String s=bfs.get(v);
+		while(!s.equals(u)) {
+			path.add(s);
+			s=bfs.get(s);
+		}
+		path.add(u);
+		ArrayList<String> result= new ArrayList<String>();
+		for(int i=path.size()-1; i>=0;i--) {
+			result.add(path.get(i));
+		}
+		return result;
+	}
+	
 	public int diameter() {
+		//bfs over all nodes
+		//take the longest path by taking the last entry in the return arrayList
+		//know the distance
+		//if unconnected then, distance is 2*vertices
 		return 0;
 	}
 	
 	public int centrality(String v) {
+		//shortest path from each vertex to each vertex 
+		//(if it is in that, then add one to the centrality)
+		//maybe have a prioritized vertex? to make a subtree
 		return 0;
 	}
 	
@@ -79,8 +104,11 @@ public class GraphProcessor {
 			String current= scan.nextLine();
 			//from node
 			String key = current.substring(0, current.indexOf(' '));
+			key=key.trim();
 			//to node
 			String value = current.substring(current.indexOf(' ') + 1, current.length());
+			value=value.trim();
+			
 			if(map.containsKey(key))
 				map.get(key).add(value);
 			else{
