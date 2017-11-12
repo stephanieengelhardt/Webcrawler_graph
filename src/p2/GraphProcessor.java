@@ -1,5 +1,12 @@
 package p2;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
 
 /*
  * @author Joshua Forest and Stephanie Engelhardt
@@ -10,34 +17,33 @@ import java.util.ArrayList;
  */
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
-	private ArrayList<ArrayList<String>> stronglyConnectedComponent;
-	private int verticies; 
+	private int vertices; 
 	
-	public GraphProcessor(String graphData) {
-		this.vertices=0;
-		this.map=createMapFromFile(graphData);
-		this.StronglyConnectedComponent=createStronglyConnected();
+	//graph data is a file name
+	public GraphProcessor(String graphData) throws FileNotFoundException {
+		this.map=createMap(graphData);
 	}
 	
 	public int outDegree(String v) {
-		return 0;
+		return map.get(v).size();
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
-	    ArrayList<String> path= new ArrayList<String>();
+	     ArrayList<String> path= new ArrayList<String>();
 	    Queue<String> queue= new LinkedList<String>();
-	    //this might need to be an int array
 	    ArrayList<String> visited= new ArrayList<String>();
+	    
 	    if(map.size() > 0){
-	        queue.add(s);
-	        visited.add(s);
+	    		String current=map.keySet().iterator().next();
+	        queue.add(current);
+	        visited.add(current);
 	    }
-	    whie(!(queue.isEmpty()){
+	    while(!(queue.isEmpty())){
 	        String temp= queue.remove();
 	        ArrayList<String> edges= map.get(temp);
 	        for(String s: edges){
-	            if(!(visited.contains(s)){
-	                if(!(path.contains(v)){
+	            if(!(visited.contains(s))){
+	                if(!(path.contains(v))){
 	                    path.add(s);
 	                }
 	                else{
@@ -60,31 +66,31 @@ public class GraphProcessor {
 		return 0;
 	}
 	
-	private ArrayList<ArrayList<String>> createStronglyConnected(){
-	    //TODO: Not completed
-	    ArrayList<ArrayList<String>> result= new ArrayList();
-	    //bit array
-	    Node visited[] = new Node[vertices];
-	    Iterator<String> iterator= map.keySet().iterator();
-	    int index=0;
-	    
-	    //get all of the vertices from the map
-	    while(iterator.hasNext()){
-	        try{
-	            visited[index]=new Node(iterator.next(), false);
-	            index++;
-	        }
-	        catch(ArrayIndexOutOfBoundsException e){
-	            System.out.println("Error with number of vertices from the parent file");
-	            return null;
-	        }
-	    }
-	    
-	    //set all to not visited
-	    for(int i=0; i <visited.length; i++){
-	        if(visited[i] !=null){
-	            visited[i].setVisited(false);
-	        }
-	    }
+
+	private HashMap<String, ArrayList<String>> createMap(String filename) throws FileNotFoundException{
+		HashMap<String, ArrayList<String>> map = new HashMap();
+		File file = new File(filename);
+		Scanner scan=new Scanner(file);
+		//first line indicates the number of vertices
+		vertices = scan.nextInt();
+		scan.nextLine();
+		//the rest of the lines are directed edges
+		while(scan.hasNextLine()){
+			String current= scan.nextLine();
+			//from node
+			String key = current.substring(0, current.indexOf(' '));
+			//to node
+			String value = current.substring(current.indexOf(' ') + 1, current.length());
+			if(map.containsKey(key))
+				map.get(key).add(value);
+			else{
+				map.put(key, new ArrayList<String>());
+				map.get(key).add(value);
+			}
+			if(!map.containsKey(value))
+				map.put(value, new ArrayList<String>());
+		}
+		scan.close();
+		return map;
 	}
 }

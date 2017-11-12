@@ -1,23 +1,14 @@
 package p2;
 
 public class Node {
-	String data;
-	Boolean visited; 
+	String link, parentLink;
 	
-	public Node(String data, boolean visted) {
-		this.data=data;
-		this.visited=visited;
+	public Node(String link, String parentLink) {
+		this.link=link;
+		this.parentLink=parentLink;
 	}
 	
-	public String getData() {
-		return data;
-	}
-	
-	public Boolean getVisited(){
-	    return visited;
-	}
-	
-	public void setVisited(Boolean visit){
-	    this.visited=visit;
+	public String getData(){
+	    return parentLink+link;
 	}
 }
