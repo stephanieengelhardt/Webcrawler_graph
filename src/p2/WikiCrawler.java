@@ -21,7 +21,7 @@ public class WikiCrawler {
 	//private Queue<String> queue= new LinkedList<String>();
 
 	
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) {
 		ArrayList<String> topics = new ArrayList<String>();
 		//topics.add("Iowa State");
 		//topics.add("Cyclones");
@@ -44,7 +44,7 @@ public class WikiCrawler {
 		this.fileName=fileName;
 	}
 	
-	public ArrayList<String> extractLinks(String doc) throws IOException{
+	public ArrayList<String> extractLinks(String doc) {
 		ArrayList<String> result = new ArrayList<String>();	
 		if(doc.contains("<P>") && doc.contains("<p>")){
 			doc=doc.substring(Math.min(doc.indexOf("<P>"), doc.indexOf("<p>")));
@@ -81,7 +81,8 @@ public class WikiCrawler {
 		return result;
 	}
 	
-	private String getHTML(String link) throws InterruptedException, IOException{
+	private String getHTML(String link) {
+		try{
 		String website = BASE_URL+link;
 		URL url= new URL(website);
 		InputStream read= url.openStream();
@@ -99,6 +100,11 @@ public class WikiCrawler {
 			doc+=line;
 		}
 		return doc;
+		}
+		catch(Exception e){
+			System.out.println("exception thrown");
+			return null;
+		}
 	}
 	
 	private boolean containsTopics(String html){
@@ -109,12 +115,17 @@ public class WikiCrawler {
 		return true;
 	}
 	
-	public void crawl() throws InterruptedException, IOException {
+	public void crawl() {
 		//only find 0 to max amount of links within this webpage
 		Queue<String> q = new LinkedList<String>(); //to queue the webpages for visits
 		ArrayList<String> vertices = new ArrayList<String>(); // to store the saved vertices
 		ArrayList<String[]> edges = new ArrayList<String[]>(); //to store the edges between vertices
 		ArrayList<String> visited = new ArrayList<String>(); //all of the vertices that have been visited
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		try{
+		fw = new FileWriter(fileName);
+		bw = new BufferedWriter(fw);
 		//------------------------------------------------------------------------------
 		String URL=seedURL;
 		q.add(URL);
@@ -140,16 +151,28 @@ public class WikiCrawler {
 				i--;
 			}
 		}
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		fw = new FileWriter(fileName);
-		bw = new BufferedWriter(fw);
 		bw.write(""+vertices.size());
 		for(String[] arr:edges){
 			bw.newLine();
 			bw.write(arr[0]+" "+arr[1]);
 		}
-		bw.close();
+		}
+		catch(Exception e){
+			System.out.println("exception thrown");
+			return;
+		}
+		finally{
+			try {
+				if (bw != null)
+					bw.close();
+				if (fw != null)
+					fw.close();
+			} 
+			catch (Exception e) {
+				System.out.println("exception thrown");
+				return;
+			}
+		}
 	}
 	
 	
