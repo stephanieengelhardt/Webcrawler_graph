@@ -1,0 +1,11 @@
+5
+/wiki/Iowa_State_Cyclones /wiki/Sport
+/wiki/Iowa_State_Cyclones /wiki/Iowa_State_University
+/wiki/Iowa_State_Cyclones /wiki/Big_12_Conference
+/wiki/Iowa_State_Cyclones /wiki/NCAA_Division_I
+/wiki/Iowa_State_University /wiki/Iowa_State_Cyclones
+/wiki/Iowa_State_University /wiki/Big_12_Conference
+/wiki/Big_12_Conference /wiki/NCAA_Division_I
+/wiki/Big_12_Conference /wiki/Iowa_State_University
+/wiki/Big_12_Conference /wiki/Iowa_State_Cyclones
+/wiki/NCAA_Division_I /wiki/Big_12_Conference

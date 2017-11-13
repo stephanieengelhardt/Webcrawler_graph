@@ -22,13 +22,17 @@ public class WikiCrawler {
 
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
+		ArrayList<String> topics = new ArrayList<String>();
+		//topics.add("Iowa State");
+		//topics.add("Cyclones");
+		WikiCrawler w= new WikiCrawler("/wiki/Iowa_State_Cyclones", 5, topics, "test1.txt");
+		w.crawl();
+		//String t = w.getHTML("/wiki/Iowa_State_Cyclones");
+		//ArrayList<String> test= w.extractLinks(t);
+		//for(String s: test) {
+		//	System.out.println(s);
+		//}
 		
-		WikiCrawler w= new WikiCrawler("hello", 10, null, "test.txt");
-		String t = w.getHTML("/wiki/Iowa_State_Cyclones");
-		ArrayList<String> test= w.extractLinks(t);
-		for(String s: test) {
-			System.out.println(s);
-		}	
 	}
 
 
@@ -83,9 +87,11 @@ public class WikiCrawler {
 		InputStream read= url.openStream();
 		BufferedReader br= new BufferedReader(new InputStreamReader(read));
 		count ++;
-		if(count%50==0) {
+		if(count%50==0 && count!=0) {
 			//after 50 requests you MUST use Thread.sleep() (or we get 0 credit)
+			System.out.println("...waiting");
 			Thread.sleep(3000);
+			System.out.println("moving again");
 		}
 		String line;
 		String doc="";
@@ -95,17 +101,55 @@ public class WikiCrawler {
 		return doc;
 	}
 	
+	private boolean containsTopics(String html){
+		if(topics!=null){
+		for(String s : topics){
+			if(!html.contains(s)) return false;
+		}}
+		return true;
+	}
+	
 	public void crawl() throws InterruptedException, IOException {
 		//only find 0 to max amount of links within this webpage
-		Queue<String> q = new LinkedList<String>();
-		LinkedList<String> l=new LinkedList<String>();
-		for(int i=0; i<max; i++) {
-			String doc = getHTML(seedURL);
-			for(String s : extractLinks(doc)){
-				q.add(doc);
-			}
+		Queue<String> q = new LinkedList<String>(); //to queue the webpages for visits
+		ArrayList<String> vertices = new ArrayList<String>(); // to store the saved vertices
+		ArrayList<String[]> edges = new ArrayList<String[]>(); //to store the edges between vertices
+		ArrayList<String> visited = new ArrayList<String>(); //all of the vertices that have been visited
+		//------------------------------------------------------------------------------
+		String URL=seedURL;
+		q.add(URL);
+	
+		while(!q.isEmpty() && vertices.size()!=max){
+			String currentURL = q.poll();
+			String html = getHTML(currentURL);
+			visited.add(currentURL);
+			if(containsTopics(html)){
+				vertices.add(currentURL);
+				for(String link:extractLinks(html)){
+					String[] arr = {currentURL,link};
+					edges.add(arr);
+					if(!visited.contains(link)) q.add(link);
+				}
 
+			}
 		}
+		
+		for(int i=0;i<edges.size();i++){
+			if(!(vertices.contains(edges.get(i)[0])&&vertices.contains(edges.get(i)[1])) || edges.get(i)[0].equals(edges.get(i)[1])){
+				edges.remove(i);
+				i--;
+			}
+		}
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		fw = new FileWriter(fileName);
+		bw = new BufferedWriter(fw);
+		bw.write(""+vertices.size());
+		for(String[] arr:edges){
+			bw.newLine();
+			bw.write(arr[0]+" "+arr[1]);
+		}
+		bw.close();
 	}
 	
 	
