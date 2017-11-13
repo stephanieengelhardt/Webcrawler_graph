@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
-/*
+/**
  * @author Joshua Forest and Stephanie Engelhardt
  * This represents the web where every node is a webpage
  * and if there is a directed edge from node p and q
  * that means that there is a link from page p to page q 
  * on the website
- */
+ **/
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private int vertices; 

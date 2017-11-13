@@ -23,9 +23,9 @@ public class WikiCrawler {
 	
 	public static void main(String[] args) {
 		ArrayList<String> topics = new ArrayList<String>();
-		//topics.add("Iowa State");
-		//topics.add("Cyclones");
-		WikiCrawler w= new WikiCrawler("/wiki/Iowa_State_Cyclones", 5, topics, "test1.txt");
+		topics.add("Iowa State");
+		topics.add("Cyclones");
+		WikiCrawler w= new WikiCrawler("/wiki/Iowa_State_Cyclones", 200, topics, "test1.txt");
 		w.crawl();
 		//String t = w.getHTML("/wiki/Iowa_State_Cyclones");
 		//ArrayList<String> test= w.extractLinks(t);
