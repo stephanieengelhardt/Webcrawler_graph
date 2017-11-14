@@ -18,35 +18,48 @@ import java.util.Scanner;
  **/
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
-	private int vertices; 
+	private int vertices;
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		GraphProcessor g= new GraphProcessor("test.txt");
-		/*for(String s: g.bfsPath("Minneapolis", "Omaha"))
-			System.out.println(s);*/
-		//A->M, A->C, M->C, M->O, M->A, C->M
-		System.out.println("Centrality of Minneapolis: expected=6, actual="+g.centrality("Minneapolis"));
-		//A->M, A->C, A->O, M->O, M->A, C->O, C->M, C->A
-		System.out.println("Centrality of Ames: expected=8, actual="+g.centrality("Ames"));
-		//A->M, A->C, M->C, M->O, M->A, C->M
-		System.out.println("Centrality of Omaha: expected=3, actual="+g.centrality("Omaha"));
-		//A->C, M->C, M->A, M->O, C->M, C->A, C->O
-		System.out.println("Centrality of Chicago: expected=7, actual="+g.centrality("Chicago"));
+		for(String s: g.bfsPath("hi", "bye"))
+			System.out.println(s);
+		//A->M, A->C, M->C, M->O, M->A, C->M, M->M
+		System.out.println("Centrality of Minneapolis: expected=7, actual="+g.centrality("Minneapolis"));
+		//A->M, A->C, A->O, M->O, M->A, C->O, C->M, C->A, A->A
+		System.out.println("Centrality of Ames: expected=9, actual="+g.centrality("Ames"));
+		//C->0, A->0, M->O, O->O
+		System.out.println("Centrality of Omaha: expected=4, actual="+g.centrality("Omaha"));
+		//A->C, M->C, M->A, M->O, C->M, C->A, C->O, C->C
+		System.out.println("Centrality of Chicago: expected=8, actual="+g.centrality("Chicago"));
+		System.out.println(g.diameter());
+		
 	}
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map=createMap(graphData);
 	}
 	
+	//if v doesn't exist, return -1
 	public int outDegree(String v) {
-		return map.get(v).size();
+		if(map.get(v)!=null)
+			return map.get(v).size();
+		else
+			return -1;
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
+		if(!map.containsKey(u) || !map.containsKey(v)) {
+			return new ArrayList<String>();
+		}
 	    ArrayList<String> path= new ArrayList<String>();
 	    Queue<String> queue= new LinkedList<String>();
 	    ArrayList<String> visited= new ArrayList<String>();
-	    HashMap<String, String> parent = new HashMap();
+	    HashMap<String, String> parent = new HashMap<String, String>();
+	    if(u.equals(v)) {
+	    		path.add(u);
+	    		return path;
+	    }
 	    if(map.size() > 0){
 	        queue.add(u);
 	        visited.add(u);
@@ -86,15 +99,32 @@ public class GraphProcessor {
 	}
 	
 	public int diameter() {
-		//bfs over all nodes
-		//take the longest path by taking the last entry in the return arrayList
-		//know the distance
+		Iterator it= map.entrySet().iterator();
+		int max=0;
+		while(it.hasNext()) {
+			Map.Entry current=(Map.Entry) it.next();
+			for(Map.Entry entry: map.entrySet()) {
+				//it wouldn't be the longest path if it is a path to itself
+				if(!entry.equals(current)) {
+					ArrayList<String> result= bfsPath((String) current.getKey(),(String) entry.getKey());
+					if(result.size()>max) {
+						max=result.size();
+					}
+				}
+			}
+		}
 		//if unconnected then, distance is 2*vertices
-		return 0;
+		if(max==0) {
+			return 2*vertices;
+		}
+		return max;
 	}
 	
 	public int centrality(String v) {
 		int count=0;
+		if(!map.containsKey(v)) {
+			return 0;
+		}
 		Iterator it= map.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry current=(Map.Entry) it.next();
@@ -109,15 +139,13 @@ public class GraphProcessor {
 				}
 			}
 		}
-		//shortest path from each vertex to each vertex 
-		//(if it is in that, then add one to the centrality)
-		//maybe have a prioritized vertex? to make a subtree
-		return count;
+		//add one to account for it being the shortest path to itself
+		return count+1;
 	}
 	
 
 	private HashMap<String, ArrayList<String>> createMap(String filename) throws FileNotFoundException{
-		HashMap<String, ArrayList<String>> map = new HashMap();
+		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		File file = new File(filename);
 		Scanner scan=new Scanner(file);
 		//first line indicates the number of vertices
@@ -146,5 +174,6 @@ public class GraphProcessor {
 		return map;
 	}
 }
+
 
 
