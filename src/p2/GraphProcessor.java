@@ -117,7 +117,8 @@ public class GraphProcessor {
 		if(max==0) {
 			return 2*vertices;
 		}
-		return max;
+		//subtract one because max is the number of vertices and it should count the number of edges
+		return max-1;
 	}
 	
 	public int centrality(String v) {
