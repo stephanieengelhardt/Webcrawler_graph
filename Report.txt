@@ -1,0 +1,7 @@
+After running /wiki/Computer_Science as the seedUrl, 200 as the max, an empty list as the topics, and then made it into a graph (in WikiCS.txt), we got the following results:
+The vertex /wiki/Computer_Science has the max out degree and max centrality
+	The max centrality= 9773
+	The max out degree = 199
+Number of edges in the graph = 2865
+Number of vertices in the graph = 200
+The diameter of the graph is= 5
