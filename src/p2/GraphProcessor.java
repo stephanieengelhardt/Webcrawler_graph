@@ -111,12 +111,11 @@ public class GraphProcessor {
 	public int diameter() {
 		Iterator it= map.entrySet().iterator();
 		int max=0;
-		while(it.hasNext()) {
-			Map.Entry current=(Map.Entry) it.next();
-			for(Map.Entry entry: map.entrySet()) {
+		for(String current: map.keySet()) {
+			for(String key: map.keySet()) {
 				//it wouldn't be the longest path if it is a path to itself
-				if(!entry.equals(current)) {
-					ArrayList<String> result= bfsPath((String) current.getKey(),(String) entry.getKey());
+				if(!key.equals(current)) {
+					ArrayList<String> result= bfsPath(current,key);
 					if(result.size()>max) {
 						max=result.size();
 					}
@@ -127,7 +126,6 @@ public class GraphProcessor {
 		if(max==0) {
 			return 2*vertices;
 		}
-		//subtract one because max is the number of vertices and it should count the number of edges
 		return max-1;
 	}
 	
