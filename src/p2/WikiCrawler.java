@@ -13,12 +13,9 @@ public class WikiCrawler {
 	private static final String BASE_URL= "https://en.wikipedia.org";
 	private String fileName;
 	private String seedURL;
-	//private ArrayList<String> links;
 	private ArrayList<String> topics;
 	private int max;
 	private int count;
-	//private Queue<String> queue= new LinkedList<String>();
-	private int td=0;
 
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.seedURL = seedUrl;
@@ -66,7 +63,6 @@ public class WikiCrawler {
 	
 	private String getHTML(String link) {
 		try{
-			long startTime = System.nanoTime();
 		String website = BASE_URL+link;
 		URL url= new URL(website);
 		InputStream read= url.openStream();
@@ -74,18 +70,13 @@ public class WikiCrawler {
 		count ++;
 		if(count%50==0 && count!=0) {
 			//after 50 requests you MUST use Thread.sleep() (or we get 0 credit)
-			System.out.println("...waiting");
-			Thread.sleep(10000);
-			System.out.println("moving again");
+			Thread.sleep(3000);
 		}
 		String line;
 		String doc="";
 		while((line=br.readLine()) != null){
 			doc+=line;
 		}
-		long endTime = System.nanoTime();
-		long duration = (endTime - startTime);
-		td+=(duration/1000000);
 		return doc;
 		}
 		catch(Exception e){
@@ -161,7 +152,4 @@ public class WikiCrawler {
 			}
 		}
 	}
-	
-	
-	
 }
