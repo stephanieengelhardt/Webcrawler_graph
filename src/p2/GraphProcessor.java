@@ -22,7 +22,32 @@ public class GraphProcessor {
 	
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
-		this.map=createMap(graphData);
+		this.map = new HashMap<String, ArrayList<String>>();
+		File file = new File(filename);
+		Scanner scan=new Scanner(file);
+		//first line indicates the number of vertices
+		vertices = scan.nextInt();
+		scan.nextLine();
+		//the rest of the lines are directed edges
+		while(scan.hasNextLine()){
+			String current= scan.nextLine();
+			//from node
+			String key = current.substring(0, current.indexOf(' '));
+			key=key.trim();
+			//to node
+			String value = current.substring(current.indexOf(' ') + 1, current.length());
+			value=value.trim();
+			
+			if(map.containsKey(key))
+				map.get(key).add(value);
+			else{
+				map.put(key, new ArrayList<String>());
+				map.get(key).add(value);
+			}
+			if(!map.containsKey(value))
+				map.put(value, new ArrayList<String>());
+		}
+		scan.close();
 	}
 	
 	//if v doesn't exist, return -1
@@ -127,37 +152,6 @@ public class GraphProcessor {
 		}
 		//add one to account for it being the shortest path to itself
 		return count+1;
-	}
-	
-
-	private HashMap<String, ArrayList<String>> createMap(String filename) throws FileNotFoundException{
-		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		File file = new File(filename);
-		Scanner scan=new Scanner(file);
-		//first line indicates the number of vertices
-		vertices = scan.nextInt();
-		scan.nextLine();
-		//the rest of the lines are directed edges
-		while(scan.hasNextLine()){
-			String current= scan.nextLine();
-			//from node
-			String key = current.substring(0, current.indexOf(' '));
-			key=key.trim();
-			//to node
-			String value = current.substring(current.indexOf(' ') + 1, current.length());
-			value=value.trim();
-			
-			if(map.containsKey(key))
-				map.get(key).add(value);
-			else{
-				map.put(key, new ArrayList<String>());
-				map.get(key).add(value);
-			}
-			if(!map.containsKey(value))
-				map.put(value, new ArrayList<String>());
-		}
-		scan.close();
-		return map;
 	}
 }
 
