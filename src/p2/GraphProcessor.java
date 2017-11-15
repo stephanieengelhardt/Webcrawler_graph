@@ -1,4 +1,3 @@
-package p2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,11 +19,7 @@ import java.util.Scanner;
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private int vertices;
-	
-	public static void main(String[] args){
-		
-	}
-	
+
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map = new HashMap<String, ArrayList<String>>();
