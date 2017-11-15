@@ -23,7 +23,7 @@ public class GraphProcessor {
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map = new HashMap<String, ArrayList<String>>();
-		File file = new File(filename);
+		File file = new File(graphData);
 		Scanner scan=new Scanner(file);
 		//first line indicates the number of vertices
 		vertices = scan.nextInt();
