@@ -1,4 +1,3 @@
-package p2;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,24 +20,6 @@ public class WikiCrawler {
 	//private Queue<String> queue= new LinkedList<String>();
 	private int td=0;
 
-	
-	public static void main(String[] args) {
-		ArrayList<String> topics = new ArrayList<String>();
-		//topics.add("Iowa State");
-		//topics.add("Cyclones");
-		WikiCrawler w= new WikiCrawler("/wiki/Computer_science", 200, topics, "test1.txt");
-		w.crawl();
-		//String t = w.getHTML("/wiki/Iowa_State_Cyclones");
-		//ArrayList<String> test= w.extractLinks(t);
-		//for(String s: test) {
-		//	System.out.println(s);
-		//}
-		System.out.println(w.td);
-		
-	}
-
-
-	
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.seedURL = seedUrl;
 		this.max=max;
