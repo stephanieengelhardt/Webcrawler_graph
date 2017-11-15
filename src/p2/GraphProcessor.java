@@ -134,19 +134,16 @@ public class GraphProcessor {
 		if(!map.containsKey(v)) {
 			return 0;
 		}
-		Iterator it= map.entrySet().iterator();
-		while(it.hasNext()) {
-			Map.Entry current=(Map.Entry) it.next();
+		for(String current: map.keySet())
 			if(!current.equals(v)) {
-				for(Map.Entry entry: map.entrySet()) {
-					if(!entry.equals(current)) {
-						ArrayList<String> result= bfsPath((String) current.getKey(),(String) entry.getKey());
+				for(String key: map.keySet())
+					if(!key.equals(current)) {
+						ArrayList<String> result= bfsPath(current,key);
 						if(result.contains(v)) {
 							count++;
 						}
 					}
-				}
-			}
+				
 		}
 		//add one to account for it being the shortest path to itself
 		return count+1;
