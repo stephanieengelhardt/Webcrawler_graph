@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -19,6 +20,10 @@ import java.util.Scanner;
 public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private int vertices;
+	
+	public static void main(String[] args){
+		
+	}
 	
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
@@ -59,12 +64,16 @@ public class GraphProcessor {
 	}
 	
 	public ArrayList<String> bfsPath(String u, String v){
+		
 		if(!map.containsKey(u) || !map.containsKey(v)) {
 			return new ArrayList<String>();
 		}
+		HashMap<String, Integer > visited = new HashMap<String, Integer>();
+		for(String s: map.keySet()){
+			visited.put(s,0);
+		}
 	    ArrayList<String> path= new ArrayList<String>();
 	    Queue<String> queue= new LinkedList<String>();
-	    ArrayList<String> visited= new ArrayList<String>();
 	    HashMap<String, String> parent = new HashMap<String, String>();
 	    if(u.equals(v)) {
 	    		path.add(u);
@@ -72,7 +81,7 @@ public class GraphProcessor {
 	    }
 	    if(map.size() > 0){
 	        queue.add(u);
-	        visited.add(u);
+	        visited.put(u,1);
 	    }
 	    while(!(queue.isEmpty())){
 	        String temp= queue.remove();
@@ -82,10 +91,10 @@ public class GraphProcessor {
 	        			parent.put(v, temp);
 	        			return pathMaker(parent, u,v);
 	        		}
-	            if(!(visited.contains(s))){
+	            if(visited.get(s).equals(0)){
 	                parent.put(s, temp);
 	                queue.add(s);
-		            visited.add(s);
+		            visited.put(s,1);
 	            }
 	        }
 	    }

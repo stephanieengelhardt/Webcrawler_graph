@@ -5,3 +5,7 @@ The vertex /wiki/Computer_Science has the max out degree and max centrality
 Number of edges in the graph = 2865
 Number of vertices in the graph = 200
 The diameter of the graph is= 5
+
+The data structure we used for Q is a linked list. The java linked list implementations gives O(1) time for add and poll which are the only methods used with the queue.
+
+The data structure used for visited was an ArrayList. 

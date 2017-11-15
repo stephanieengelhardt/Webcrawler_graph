@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.net.*;
 import java.io.*;
-/*
+/**
  * @author Joshua Forest and Stephanie Engelhardt
- */
+ **/
 public class WikiCrawler {
 	
 	
@@ -19,19 +19,21 @@ public class WikiCrawler {
 	private int max;
 	private int count;
 	//private Queue<String> queue= new LinkedList<String>();
+	private int td=0;
 
 	
 	public static void main(String[] args) {
 		ArrayList<String> topics = new ArrayList<String>();
-		topics.add("Iowa State");
-		topics.add("Cyclones");
-		WikiCrawler w= new WikiCrawler("/wiki/Iowa_State_Cyclones", 200, topics, "test1.txt");
+		//topics.add("Iowa State");
+		//topics.add("Cyclones");
+		WikiCrawler w= new WikiCrawler("/wiki/Computer_science", 200, topics, "test1.txt");
 		w.crawl();
 		//String t = w.getHTML("/wiki/Iowa_State_Cyclones");
 		//ArrayList<String> test= w.extractLinks(t);
 		//for(String s: test) {
 		//	System.out.println(s);
 		//}
+		System.out.println(w.td);
 		
 	}
 
@@ -83,6 +85,7 @@ public class WikiCrawler {
 	
 	private String getHTML(String link) {
 		try{
+			long startTime = System.nanoTime();
 		String website = BASE_URL+link;
 		URL url= new URL(website);
 		InputStream read= url.openStream();
@@ -91,7 +94,7 @@ public class WikiCrawler {
 		if(count%50==0 && count!=0) {
 			//after 50 requests you MUST use Thread.sleep() (or we get 0 credit)
 			System.out.println("...waiting");
-			Thread.sleep(3000);
+			Thread.sleep(10000);
 			System.out.println("moving again");
 		}
 		String line;
@@ -99,6 +102,9 @@ public class WikiCrawler {
 		while((line=br.readLine()) != null){
 			doc+=line;
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		td+=(duration/1000000);
 		return doc;
 		}
 		catch(Exception e){
@@ -146,7 +152,7 @@ public class WikiCrawler {
 		}
 		
 		for(int i=0;i<edges.size();i++){
-			if(!(vertices.contains(edges.get(i)[0])&&vertices.contains(edges.get(i)[1])) || edges.get(i)[0].equals(edges.get(i)[1])){
+			if(!(vertices.contains(edges.get(i)[1])) || edges.get(i)[0].equals(edges.get(i)[1])){
 				edges.remove(i);
 				i--;
 			}
