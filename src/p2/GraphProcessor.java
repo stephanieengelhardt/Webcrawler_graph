@@ -20,21 +20,6 @@ public class GraphProcessor {
 	private HashMap<String, ArrayList<String>> map;
 	private int vertices;
 	
-	public static void main(String[] args) throws FileNotFoundException {
-		GraphProcessor g= new GraphProcessor("test.txt");
-		for(String s: g.bfsPath("hi", "bye"))
-			System.out.println(s);
-		//A->M, A->C, M->C, M->O, M->A, C->M, M->M
-		System.out.println("Centrality of Minneapolis: expected=7, actual="+g.centrality("Minneapolis"));
-		//A->M, A->C, A->O, M->O, M->A, C->O, C->M, C->A, A->A
-		System.out.println("Centrality of Ames: expected=9, actual="+g.centrality("Ames"));
-		//C->0, A->0, M->O, O->O
-		System.out.println("Centrality of Omaha: expected=4, actual="+g.centrality("Omaha"));
-		//A->C, M->C, M->A, M->O, C->M, C->A, C->O, C->C
-		System.out.println("Centrality of Chicago: expected=8, actual="+g.centrality("Chicago"));
-		System.out.println(g.diameter());
-		
-	}
 	//graph data is a file name
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		this.map=createMap(graphData);
